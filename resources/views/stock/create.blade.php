@@ -17,6 +17,10 @@
             <label>Quantity:</label>
             <input type="number" name="quantity" value="{{ $stock->quantity ?? 0 }}" class="form-control">
         </div>
+        <div class="mb-3">
+            <label>Price:</label>
+            <input type="number" name="price" class="form-control" step="0.01" value="{{ old('price', $stockItem->price ?? '') }}" required>
+        </div>
         <button type="submit" class="btn btn-primary">{{ isset($stock) ? 'Update' : 'Add' }}</button>
     </form>
 @endsection

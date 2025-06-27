@@ -17,7 +17,17 @@ return new class extends Migration
             $table->string('category');
             $table->integer('quantity')->default(0);
             $table->timestamps();
+
+            {
+                Schema::table('stock_items', function (Blueprint $table) {
+                    $table->decimal('price', 8, 2)->default(0.00);
+                });
+            }
+
         });
+
+
+
     }
 
     /**
@@ -26,5 +36,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('stock_items');
+
+        {
+            Schema::table('stock_items', function (Blueprint $table) {
+                $table->dropColumn('price');
+            });
+        }
+
     }
 };

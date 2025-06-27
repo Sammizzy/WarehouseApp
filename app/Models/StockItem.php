@@ -9,7 +9,8 @@ class StockItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'category', 'quantity'];
+    protected $fillable = ['name', 'category', 'quantity', 'price'];
+
 
     public function orders()
     {

@@ -8,9 +8,11 @@
         <thead>
         <tr>
             <th>Customer</th>
-            <th>Stock Item</th>
-            <th>Quantity</th>
-            <th>Order Date</th>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Item Price</th>
+            <th>Total</th>
+            <th>Date</th>
         </tr>
         </thead>
         <tbody>
@@ -19,6 +21,8 @@
                 <td>{{ $order->customer->name }}</td>
                 <td>{{ $order->stockItem->name }}</td>
                 <td>{{ $order->quantity }}</td>
+                <td>${{ number_format($order->stockItem->price, 2) }}</td>
+                <td>${{ number_format($order->quantity * $order->stockItem->price, 2) }}</td>
                 <td>{{ $order->order_date }}</td>
             </tr>
         @endforeach
