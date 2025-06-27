@@ -9,5 +9,7 @@ Route::get('/', [StockItemController::class, 'index']);
 Route::resource('stock', StockItemController::class);
 Route::resource('customers', CustomerController::class);
 Route::resource('orders', OrderController::class);
+Route::resource('customers', CustomerController::class);
+
 
 
