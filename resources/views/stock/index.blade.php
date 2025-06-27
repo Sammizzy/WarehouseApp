@@ -4,22 +4,22 @@
     <a href="{{ route('stock.create') }}" class="btn btn-success mb-3">Add New Stock</a>
     <table class="table">
         <thead>
-        <tr><th>Name</th><th>Category</th><th>Quantity</th><th>Actions</th><th>Price</th></tr>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Price</th> <!-- New -->
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-        @foreach($stockItems as $stock)
+        @foreach($stockItems as $item)
             <tr>
-                <td>{{ $stock->name }}</td>
-                <td>{{ $stock->category }}</td>
-                <td>{{ $stock->quantity }}</td>
-                <td>${{ number_format($item->price, 2) }}</td>
-                <td>
-                    <a href="{{ route('stock.edit', $stock->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('stock.destroy', $stock->id) }}" method="POST" style="display:inline;">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </form>
-                </td>
+                <td>{{ $item->name }}</td>
+                <td>{{ $item->category }}</td>
+                <td>{{ $item->quantity }}</td>
+                <td>${{ number_format($item->price, 2) }}</td> <!-- New -->
+                <td>...</td>
             </tr>
         @endforeach
         </tbody>

@@ -18,12 +18,6 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->timestamps();
 
-            {
-                Schema::table('stock_items', function (Blueprint $table) {
-                    $table->decimal('price', 8, 2)->default(0.00);
-                });
-            }
-
         });
 
 
