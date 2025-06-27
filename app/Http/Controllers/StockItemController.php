@@ -20,36 +20,35 @@ class StockItemController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
+        $request->validate([
+            'name' => 'required|string',
+            'category' => 'required|string',
             'quantity' => 'required|integer|min:0',
         ]);
-
-        StockItem::create($validated);
-
-        return redirect()->route('stock.index')->with('success', 'Stock item added.');
+        StockItem::create($request->all());
+        return redirect()->route('stock.index');
     }
 
-    public function edit($id)
+    public function edit(StockItem $stock)
     {
-        $stockItem = StockItem::findOrFail($id);
-        return view('stock.edit', compact('stockItem'));
+        return view('stock.edit', compact('stock'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, StockItem $stock)
     {
-        $stockItem = StockItem::findOrFail($id);
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
+        $request->validate([
+            'name' => 'required|string',
+            'category' => 'required|string',
             'quantity' => 'required|integer|min:0',
         ]);
+        $stock->update($request->all());
+        return redirect()->route('stock.index');
+    }
 
-        $stockItem->update($validated);
-
-        return redirect()->route('stock.index')->with('success', 'Stock item updated.');
+    public function destroy(StockItem $stock)
+    {
+        $stock->delete();
+        return redirect()->route('stock.index');
     }
 }
 

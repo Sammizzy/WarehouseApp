@@ -9,10 +9,11 @@ class StockItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'category',
-        'quantity',
-    ];
+    protected $fillable = ['name', 'category', 'quantity'];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
 
