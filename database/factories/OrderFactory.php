@@ -26,4 +26,14 @@ class OrderFactory extends Factory
         ];
     }
 
+    public function edit($id)
+    {
+        $order = Order::with(['stockItem', 'customer'])->findOrFail($id);
+        $stockItems = StockItem::all();
+        $customers = Customer::all();
+
+        return view('orders.edit', compact('order', 'stockItems', 'customers'));
+    }
+
+
 }

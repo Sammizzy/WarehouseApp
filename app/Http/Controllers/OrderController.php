@@ -57,4 +57,34 @@ class OrderController extends Controller
         $order = Order::with(['stockItem', 'customer'])->findOrFail($id);
         return view('orders.show', compact('order'));
     }
+
+    public function edit($id)
+    {
+        $order = Order::with(['stockItem', 'customer'])->findOrFail($id);
+        $stockItems = StockItem::all();
+        $customers = Customer::all();
+        return view('orders.edit', compact('order', 'stockItems', 'customers'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'stock_item_id' => 'required|exists:stock_items,id',
+            'customer_id' => 'required|exists:customers,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->update([
+            'stock_item_id' => $request->stock_item_id,
+            'customer_id' => $request->customer_id,
+            'quantity' => $request->quantity,
+        ]);
+
+        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
+    }
+
+
+
+
 }
