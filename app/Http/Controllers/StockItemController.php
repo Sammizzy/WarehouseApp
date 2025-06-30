@@ -8,9 +8,18 @@ use App\Models\StockItem;
 
 class StockItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $stockItems = StockItem::orderBy('id', 'desc')->get();
+        $query = StockItem::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%{$search}%")
+                ->orWhere('category', 'like', "%{$search}%");
+        }
+
+        $stockItems = $query->orderBy('id', 'desc')->get();
+
         return view('stock.index', compact('stockItems'));
     }
 

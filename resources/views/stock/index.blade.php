@@ -17,6 +17,16 @@
             </div>
         @endif
 
+        <form method="GET" action="{{ route('stock.index') }}" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name or category" class="form-control">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        @if(request('search'))
+            <p>Showing results for: <strong>{{ request('search') }}</strong></p>
+        @endif
 
         <tr>
             <th>Name</th>

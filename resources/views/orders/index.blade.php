@@ -5,6 +5,11 @@
     <a href="{{ route('orders.create') }}" class="btn btn-success mb-3">Place New Order</a>
 
     <table class="table">
+
+        <a href="{{ route('orders.most_ordered') }}" class="btn btn-info mb-3">
+            View Most Ordered Products
+        </a>
+
         <thead>
         <tr>
             <th>Customer</th>
