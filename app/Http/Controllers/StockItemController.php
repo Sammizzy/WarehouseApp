@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use App\Models\StockItem;
 
@@ -9,46 +10,64 @@ class StockItemController extends Controller
 {
     public function index()
     {
-        $stockItems = StockItem::all();
+        $stockItems = StockItem::orderBy('id', 'desc')->get();
         return view('stock.index', compact('stockItems'));
     }
 
     public function create()
     {
-        return view('stock.create');
+        $stockItem = \App\Models\StockItem::all();
+        return view('stock.create', compact('stockItem'));
     }
 
     public function store(Request $request)
     {
+
+
         $request->validate([
             'name' => 'required|string',
             'category' => 'required|string',
             'quantity' => 'required|integer|min:0',
         ]);
         StockItem::create($request->all());
+
         return redirect()->route('stock.index');
     }
 
-    public function edit(StockItem $stock)
+    public function edit($id)
     {
-        return view('stock.edit', compact('stock'));
+        $stockItem = \App\Models\StockItem::findOrFail($id);
+        return view('stock.edit', compact('stockItem'));
     }
 
-    public function update(Request $request, StockItem $stock)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string',
-            'category' => 'required|string',
             'quantity' => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
         ]);
-        $stock->update($request->all());
-        return redirect()->route('stock.index');
+
+        $stockItem = StockItem::findOrFail($id);
+        $stockItem->update($request->only(['quantity', 'price']));
+
+        return redirect()->route('stock.index')->with('success', 'Stock item updated.');
     }
 
-    public function destroy(StockItem $stock)
+    public function destroy($id)
     {
-        $stock->delete();
-        return redirect()->route('stock.index');
+        $stockItem = StockItem::findOrFail($id);
+
+        if ($stockItem->orders()->count() > 0) {
+            return redirect()->route('stock.index')->with('error', 'Cannot delete: Stock item has existing orders.');
+        }
+
+        $stockItem->delete();
+
+        return redirect()->route('stock.index')->with('success', 'Stock item deleted.');
     }
+
+
+
+
 }
 
